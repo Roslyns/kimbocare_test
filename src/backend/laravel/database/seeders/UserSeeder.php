@@ -26,8 +26,8 @@ class UserSeeder extends Seeder
         $adminUser = User::create([
             'name' => 'Maestros',
             'email' => 'maestros@gmail.com',
-            'username' => 'admin',
-            'password' => Hash::make('password'), // Set a password here
+            'username' => 'maestros21',
+            'password' => Hash::make('PassWord12345'), // Set a password here
             'remember_token' => Str::random(10),
             'email_verified_at' => now(),
         ]);
