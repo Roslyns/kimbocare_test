@@ -1,0 +1,15 @@
+node_modules
+npm-debug.log
+build
+dist
+.dockerignore
+**/.git
+**/.DS_Store
+**/node_modules
+.angular/
+.editorconfig
+**/.vscode/*
+**/e2e
+/docs
+.gitignore
+*.zip

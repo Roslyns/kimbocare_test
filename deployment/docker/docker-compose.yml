@@ -9,6 +9,20 @@ volumes:
 
 services:
 
+
+  # angular
+
+  angular:
+    image: kimbotest/angular
+    container_name: angular
+    build: ./../../src/frontend/angular
+    ports:
+      - "4200:80"
+    restart: always
+    networks:
+      - kimbotest-net-dev
+
+
   # mysql
 
   db_kimbo_test:
