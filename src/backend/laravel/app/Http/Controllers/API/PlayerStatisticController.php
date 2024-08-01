@@ -26,8 +26,8 @@ class PlayerStatisticController extends Controller
      */
     public function index()
     {
-        $playerStatistics = PlayerStatistic::all();
-        return response()->json($playerStatistics);
+        $statistics = PlayerStatistic::with('player')->get();
+        return response()->json($statistics);
     }
 
     /**

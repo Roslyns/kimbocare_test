@@ -1,1 +1,28 @@
-<p>statistics works!</p>
+<div class="container mx-auto p-4">
+    <h1 class="text-2xl font-bold mb-4">Player Statistics</h1>
+    <table class="min-w-full bg-white">
+      <thead>
+        <tr>
+          <th class="py-2">Player ID</th>
+          <th class="py-2">Total Games</th>
+          <th class="py-2">Wins</th>
+          <th class="py-2">Losses</th>
+          <th class="py-2">Goals Scored</th>
+          <th class="py-2">Goals Against</th>
+          <th class="py-2">Goal Difference</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let stat of playerStatistics" class="text-center">
+          <td class="border px-4 py-2">{{ stat.player_id }}</td>
+          <td class="border px-4 py-2">{{ stat.total_games }}</td>
+          <td class="border px-4 py-2">{{ stat.wins }}</td>
+          <td class="border px-4 py-2">{{ stat.losses }}</td>
+          <td class="border px-4 py-2">{{ stat.goals_scored }}</td>
+          <td class="border px-4 py-2">{{ stat.goals_against }}</td>
+          <td class="border px-4 py-2">{{ stat.goal_difference }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

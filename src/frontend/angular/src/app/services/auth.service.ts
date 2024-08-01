@@ -14,7 +14,7 @@ export default class AppAuthService {
         private readonly http: HttpClient,
         private readonly router: Router) { }
 
-    authenticated = () => !!this.token();
+    authenticated = () => !!this.getToken();
 
     auth(auth: AppAuth): void {
         this.http
@@ -42,7 +42,7 @@ export default class AppAuthService {
         this.signin();
     }
 
-    token = () => localStorage.getItem("access_token");
+    getToken = () => localStorage.getItem("access_token");
 
     isAdmin(): boolean {
         const storedRole = localStorage.getItem("user_role");
