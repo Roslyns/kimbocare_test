@@ -23,11 +23,11 @@ export default class AppAuthService {
                 if (!result || !result.token) return;
                 localStorage.setItem("access_token", result.access_token);
                 localStorage.setItem("user_role", result.roles[0].name);
-                this.router.navigate(["/home"]);
+                this.router.navigate(["/main/home"]);
             });
     }
 
-    signin = () => this.router.navigate(["/auth"]);
+    signin = () => this.router.navigate(["/login"]);
 
     signout() {
         localStorage.clear();

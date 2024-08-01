@@ -8,7 +8,5 @@ if (environment.production) {
   enableProdMode();
 }
 
-console.log(`le mode de l pp est : ${environment.production}`);
-
 bootstrapApplication(AppComponent, appConfig)
   .catch((err) => console.error(err));
