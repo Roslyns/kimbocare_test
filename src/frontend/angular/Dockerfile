@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.4
 
-FROM node:lts-alpine AS development
+FROM node:18-alpine AS development
 WORKDIR /app
 COPY package*.json ./
 RUN npm ci
@@ -9,7 +9,7 @@ ENV CI=true
 RUN npm cache clean --force
 
 FROM development AS build
-RUN npm run build
+RUN npm run build:docker
 
 FROM nginx:1.25.3-alpine-slim
 COPY --from=build /app/deploy/nginx/nginx.conf /etc/nginx/conf.d/default.conf
