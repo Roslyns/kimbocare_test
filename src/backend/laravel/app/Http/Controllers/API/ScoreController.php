@@ -22,7 +22,9 @@ class ScoreController extends Controller
      */
     public function index()
     {
-        $scores = Score::all();
+        $scores = Score::with('player')->get();
+
+        
         return response()->json($scores);
     }
 

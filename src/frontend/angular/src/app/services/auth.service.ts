@@ -4,9 +4,6 @@ import { Router } from "@angular/router";
 import AppAuth from "../models/auth";
 import { environment } from "../../environments/environment";
 
-// import { environment } from './environments/environment';
-
-
 @Injectable({ providedIn: "root" })
 export default class AppAuthService {
 
@@ -30,7 +27,7 @@ export default class AppAuthService {
                 } else if (result.user.roles[0].name === "MANAER"){
                     this.router.navigate(["/main/home"]);
                 }else if (result.user.roles[0].name === "PLAYER"){
-                    this.router.navigate(["/main/game"]);
+                    this.router.navigate(["/main/scores"]);
                 }
             });
     }

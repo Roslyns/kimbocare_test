@@ -2,12 +2,12 @@ import { Routes } from "@angular/router";
 import { HomeComponent } from "./views/home/home.component";
 import { AuthAdminOrManagerGuard } from "./guards/auth-admin-or-manager.guard";
 import { AuthEveryoneGuard } from "./guards/auth-everyone.guard";
-import { GameComponent } from "./views/game/game.component";
 import { StatisticsComponent } from "./views/statistics/statistics.component";
 import { AuthAdminGuard } from "./guards/auth-admin.guard";
 import { UnauthorizedComponent } from "./views/unauthorized/unauthorized.component";
 import { LoginComponent } from "./views/pages/login/login.component";
 import { appCanActivate } from "./guards/app.guard";
+import { ScoresComponent } from "./views/scores/scores.component";
 
 export const routes: Routes = [
     {
@@ -26,8 +26,8 @@ export const routes: Routes = [
                 canActivate: [AuthAdminOrManagerGuard]
               },
               {
-                path: 'game',
-                component: GameComponent,
+                path: 'scores',
+                component: ScoresComponent,
                 canActivate: [AuthEveryoneGuard]
               },
               {

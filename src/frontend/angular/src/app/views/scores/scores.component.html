@@ -1,1 +1,23 @@
-<p>scores works!</p>
+<div class="container mx-auto p-4">
+    <div class="flex justify-between items-center mb-4">
+      <h1 class="text-2xl font-bold">Scores</h1>
+      <button (click)="logout()" class="bg-red-500 text-white px-4 py-2 rounded">Logout</button>
+    </div>
+    <table class="min-w-full bg-white">
+      <thead>
+        <tr>
+          <th class="py-2">Player ID</th>
+          <th class="py-2">Player Name</th>
+          <th class="py-2">Game ID</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let score of scores" class="text-center">
+          <td class="border px-4 py-2">{{ score.player_id }}</td>
+          <td class="border px-4 py-2">{{ score.player.name }}</td>
+          <td class="border px-4 py-2">{{ score.game_id }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
