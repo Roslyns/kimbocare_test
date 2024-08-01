@@ -38,14 +38,25 @@ class UserSeeder extends Seeder
             'name' => 'Tino',
             'email' => 'tino@gmail.com',
             'username' => 'tino',
-            'password' => Hash::make('password'), // Set a password here
+            'password' => Hash::make('PassWord12345'), // Set a password here
             'remember_token' => Str::random(10),
             'email_verified_at' => now(),
         ]);
         $managerUser->roles()->attach($managerRole->id);
 
-        // Create 8 additional users with player roles
-        User::factory()->count(8)->create()->each(function ($user) use ($playerRole) {
+        // Create one manager user
+        $playerUser = User::create([
+            'name' => 'Nina',
+            'email' => 'nina@gmail.com',
+            'username' => 'nina',
+            'password' => Hash::make('PassWord12345'), // Set a password here
+            'remember_token' => Str::random(10),
+            'email_verified_at' => now(),
+        ]);
+        $playerUser->roles()->attach($playerRole->id);
+
+        // Create 7 additional users with player roles
+        User::factory()->count(7)->create()->each(function ($user) use ($playerRole) {
             $user->roles()->attach($playerRole->id);
         });
     }

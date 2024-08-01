@@ -22,7 +22,6 @@ class PlayerStatistic extends Model
         'goals_scored',
         'goals_against',
         'goal_difference',
-        'win_ratio',
     ];
 
     /**
