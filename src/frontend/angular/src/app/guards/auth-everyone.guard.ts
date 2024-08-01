@@ -9,7 +9,8 @@ export class AuthEveryoneGuard implements CanActivate {
   constructor(private authService: AppAuthService, private router: Router) {}
 
   canActivate(): boolean {
-    if (this.authService.isAdmin() || this.authService.isManager() || this.authService.isPlayer()) {
+    // if (this.authService.isAdmin() || this.authService.isManager() || this.authService.isPlayer()) {
+      if (this.authService.isPlayer()) {
       return true;
     }
     this.router.navigate(['/unauthorized']);

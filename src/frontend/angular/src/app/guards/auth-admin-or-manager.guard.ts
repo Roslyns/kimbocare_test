@@ -9,7 +9,8 @@ export class AuthAdminOrManagerGuard implements CanActivate {
   constructor(private authService: AppAuthService, private router: Router) {}
 
   canActivate(): boolean {
-    if (this.authService.isAdmin() || this.authService.isManager()) {
+    // if (this.authService.isAdmin() || this.authService.isManager()) {
+      if (this.authService.isManager()) {
       return true;
     }
     this.router.navigate(['/unauthorized']);

@@ -18,12 +18,20 @@ export default class AppAuthService {
 
     auth(auth: AppAuth): void {
         this.http
-            .post(`${environment.apiUrl}/login`, auth)
+            .post(`${environment.apiUrl}/auth/login`, auth)
             .subscribe((result: any) => {
-                if (!result || !result.token) return;
+                if (!result || !result.access_token) return;
                 localStorage.setItem("access_token", result.access_token);
-                localStorage.setItem("user_role", result.roles[0].name);
-                this.router.navigate(["/main/home"]);
+                console.log(result.user.roles);
+                
+                localStorage.setItem("user_role", result.user.roles[0].name);
+                if(result.user.roles[0].name === "ADMIN"){
+                    this.router.navigate(["/main/statistics"]);
+                } else if (result.user.roles[0].name === "MANAER"){
+                    this.router.navigate(["/main/home"]);
+                }else if (result.user.roles[0].name === "PLAYER"){
+                    this.router.navigate(["/main/game"]);
+                }
             });
     }
 
