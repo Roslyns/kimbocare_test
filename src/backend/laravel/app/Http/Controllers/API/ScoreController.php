@@ -4,13 +4,21 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
 use App\Models\Score;
 
 class ScoreController extends Controller
 {
     /**
-     * Display a listing of the scores.
+     * @OA\Get(
+     *     path="/api/scores/findAll",
+     *     summary="Get list of scores",
+     *     tags={"Scores"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(type="array", @OA\Items(ref="#/components/schemas/Score"))
+     *     )
+     * )
      */
     public function index()
     {
@@ -19,7 +27,29 @@ class ScoreController extends Controller
     }
 
     /**
-     * Store a newly created score in storage.
+     * @OA\Post(
+     *     path="/api/scores/create",
+     *     summary="Create a new score",
+     *     tags={"Scores"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"game_id", "player_id", "score"},
+     *             @OA\Property(property="game_id", type="integer", example=1),
+     *             @OA\Property(property="player_id", type="integer", example=2),
+     *             @OA\Property(property="score", type="integer", example=100)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Score created successfully",
+     *         @OA\JsonContent(ref="#/components/schemas/Score")
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error"
+     *     )
+     * )
      */
     public function store(Request $request)
     {
@@ -34,7 +64,26 @@ class ScoreController extends Controller
     }
 
     /**
-     * Display the specified score.
+     * @OA\Get(
+     *     path="/api/scores/findOne/{userId}",
+     *     summary="Get a specific score",
+     *     tags={"Scores"},
+     *     @OA\Parameter(
+     *         name="userId",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(ref="#/components/schemas/Score")
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Score not found"
+     *     )
+     * )
      */
     public function show($id)
     {
@@ -43,7 +92,38 @@ class ScoreController extends Controller
     }
 
     /**
-     * Update the specified score in storage.
+     * @OA\Put(
+     *     path="/api/scores/update/{userId}",
+     *     summary="Update a score",
+     *     tags={"Scores"},
+     *     @OA\Parameter(
+     *         name="userId",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="game_id", type="integer", example=1, nullable=true),
+     *             @OA\Property(property="player_id", type="integer", example=2, nullable=true),
+     *             @OA\Property(property="score", type="integer", example=100, nullable=true)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Score updated successfully",
+     *         @OA\JsonContent(ref="#/components/schemas/Score")
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Score not found"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error"
+     *     )
+     * )
      */
     public function update(Request $request, $id)
     {
@@ -59,7 +139,25 @@ class ScoreController extends Controller
     }
 
     /**
-     * Remove the specified score from storage.
+     * @OA\Delete(
+     *     path="/api/scores/delete/{userId}",
+     *     summary="Delete a score",
+     *     tags={"Scores"},
+     *     @OA\Parameter(
+     *         name="userId",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=204,
+     *         description="Score deleted successfully"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Score not found"
+     *     )
+     * )
      */
     public function destroy($id)
     {

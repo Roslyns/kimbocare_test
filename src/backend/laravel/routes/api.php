@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\Route;
 
 // controllers
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\GameController;
+use App\Http\Controllers\API\ScoreController;
+use App\Http\Controllers\API\PlayerStatisticController;
 
 
 
@@ -29,7 +32,7 @@ use App\Http\Controllers\API\AuthController;
 |
 */
 
-
+// auth routes
 Route::prefix('auth')->group(function () {
     
     Route::post('login', [AuthController::class, 'login']);
@@ -40,3 +43,43 @@ Route::prefix('auth')->group(function () {
         Route::post('user', [AuthController::class, 'user']);
     });
 });
+
+
+Route::middleware('jwt.verify')->group(function () {
+
+    // games
+    Route::middleware('role:' . MANAER_ROLE['name'])->group(function () {
+        Route::prefix('games')->group(function () {
+            Route::get('/findAll', [GameController::class, 'index']);
+            Route::get('/findOne/{userId}', [GameController::class, 'show']);
+            Route::post('/create', [GameController::class, 'store']);
+            Route::put('/update/{userId}', [GameController::class, 'update']);
+            Route::delete('/delete/{userId}', [GameController::class, 'destroy']);
+        });        
+    });
+
+    // scores
+    Route::middleware('role:' . PLAYER_ROLE['name'])->group(function () {
+        Route::prefix('scores')->group(function () {
+            Route::get('/findAll', [ScoreController::class, 'index']);
+            Route::get('/findOne/{userId}', [ScoreController::class, 'show']);
+            Route::post('/create', [ScoreController::class, 'store']);
+            Route::put('/update/{userId}', [ScoreController::class, 'update']);
+            Route::delete('/delete/{userId}', [ScoreController::class, 'destroy']);
+        });        
+    });
+    
+    // player statistics
+    Route::middleware('role:' . ADMIN_ROLE['name'])->group(function () {
+        Route::prefix('player_statustics')->group(function () {
+            Route::get('/findAll', [PlayerStatisticController::class, 'index']);
+            Route::get('/findOne/{userId}', [PlayerStatisticController::class, 'show']);
+            Route::post('/create', [PlayerStatisticController::class, 'store']);
+            Route::put('/update/{userId}', [PlayerStatisticController::class, 'update']);
+            Route::delete('/delete/{userId}', [PlayerStatisticController::class, 'destroy']);
+        });        
+    });
+    
+
+});
+
