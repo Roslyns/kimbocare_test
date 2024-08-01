@@ -1,0 +1,40 @@
+
+# 1. stage: dependencies installation
+FROM php:8.1-fpm as dependencies
+
+WORKDIR /var/www
+COPY composer.* ./
+RUN apt-get update && apt-get install -y \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    libzip-dev \
+    unzip \
+    libonig-dev \
+    libxml2-dev \
+    libcurl4-openssl-dev \
+    git \
+    curl \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd zip pdo pdo_mysql \
+    && docker-php-ext-install opcache \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+COPY . .
+RUN composer install
+
+
+# 2. stage: application setup
+FROM php:8.1-fpm as application
+
+WORKDIR /var/www
+COPY --from=dependencies /var/www /var/www
+COPY --from=dependencies /usr/local /usr/local
+COPY deploy/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN groupadd -g 1000 www
+RUN useradd -u 1000 -ms /bin/bash -g www www
+RUN chown -R www:www /var/www/storage /var/www/bootstrap/cache /var/www/vendor/composer/ /var/www/.env
+# /var/www/vendor
+USER www
+EXPOSE 9000
+ENTRYPOINT ["entrypoint.sh"]

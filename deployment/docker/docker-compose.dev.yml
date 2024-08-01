@@ -1,0 +1,81 @@
+version: '3.8'
+
+networks:
+  kimbotest-net-dev:
+    driver: bridge
+
+volumes:
+  db_data:
+
+services:
+
+  # mysql
+
+  db_kimbo_test:
+    container_name: kimbotest_mysql
+    image: mysql:5.7
+    env_file:
+      - ./../../src/backend/laravel/.env
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3307:3306"
+    restart: always
+    networks:
+      - kimbotest-net-dev
+
+  # phpmyadmin
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: kimbotest_phpmyadmin
+    env_file:
+      - ./../../src/backend/laravel/.env
+    ports:
+      - "8084:80"
+    depends_on:
+      - db_kimbo_test
+    restart: always
+    networks:
+      - kimbotest-net-dev
+
+
+  # laravel app
+
+  api_kimbo_test:
+    image: kimbotest/laravel
+    container_name: kimbotest_laravel
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./../../src/backend/laravel
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./../../src/backend/laravel:/var/www/html
+    env_file:
+      - ./../../src/backend/laravel/.env
+    depends_on:
+      - db_kimbo_test
+    restart: unless-stopped
+    networks:
+      - kimbotest-net-dev
+
+
+  # laravel server
+  
+  webserver_kimbotest:
+    image: nginx:latest
+    container_name: webserver_kimbotest
+    ports:
+      - "8001:80"
+      - "1443:443"
+    volumes:
+      - ./../../src/backend/laravel:/var/www
+      - ./../../src/backend/laravel/deploy/nginx/:/etc/nginx/conf.d/
+    restart: unless-stopped
+    depends_on:
+      - api_kimbo_test
+    networks:
+      - kimbotest-net-dev
+      
+
